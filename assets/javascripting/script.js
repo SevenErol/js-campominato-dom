@@ -7,25 +7,9 @@ const levelsElement = document.getElementById("difficulties");
 
 const displayMatchResults = document.querySelector(".match_display");
 
-const tenRow = 10;
-
-const tenCol = 10;
-
-const tenByTen = tenRow * tenCol;
-
-const nineRow = 9;
-
-const nineCol = 9;
-
-const nineByNine = nineRow * nineCol;
-
-const sevenRow = 7;
-
-const sevenCol = 7;
-
-const seveneBySeven = sevenRow * sevenCol;
-
 let points = 0;
+
+let verify = true;
 
 function generateRandomNumbers(min, max) {
 
@@ -34,43 +18,31 @@ function generateRandomNumbers(min, max) {
 }
 
 
-function generateGrid(rows, cols, grid) {
+function generateGrid(totalArea, grid) {
 
     displayMatchResults.innerHTML = `Il tuo attuale punteggio è: ${points}`
 
-    for (let i = 0; i < (rows * cols); i++) {
+    for (let i = 0; i < (totalArea); i++) {
 
         const singleCell = document.createElement("div");
 
-        if (rows === 10 && cols === 10) {
+        grid.appendChild(singleCell);
+
+        const thisNumber = i + 1;
+
+        singleCell.innerHTML = thisNumber;
+
+        if (totalArea === 100) {
 
             singleCell.classList.add("cell_10");
 
-            grid.appendChild(singleCell);
-
-            const thisNumber = i + 1;
-
-            singleCell.innerHTML = thisNumber;
-
-        } else if (rows === 9 && cols === 9) {
+        } else if (totalArea === 81) {
 
             singleCell.classList.add("cell_9");
 
-            grid.appendChild(singleCell);
-
-            const thisNumber = i + 1;
-
-            singleCell.innerHTML = thisNumber;
-
-        } else if (rows === 7 && cols === 7) {
+        } else if (totalArea === 49) {
 
             singleCell.classList.add("cell_7");
-
-            grid.appendChild(singleCell);
-
-            const thisNumber = i + 1;
-
-            singleCell.innerHTML = thisNumber;
 
         }
 
@@ -81,8 +53,6 @@ function generateGrid(rows, cols, grid) {
 
 }
 
-let clickCount = false;
-
 
 function clickableCell(nodeList, listBombs) {
 
@@ -92,49 +62,39 @@ function clickableCell(nodeList, listBombs) {
 
         const numberInCell = thisCell.innerText * 1;
 
-        let counter = 0;
+        if (listBombs.includes(numberInCell)) {
 
-        while (counter < listBombs.length) {
+            counter = 16;
 
-            if (numberInCell === listBombs[counter]) {
+            thisCell.addEventListener("click", function bombEvent() {
 
-                counter = 16;
+                thisCell.classList.toggle("red");
 
-                thisCell.addEventListener("click", function bombEvent() {
+                console.log(this.innerText * 1);
 
-                    thisCell.classList.toggle("red");
+                displayMatchResults.innerHTML = "Peccato! hai perso";
 
-                    console.log(this.innerText * 1);
-
-                    displayMatchResults.innerHTML = "Peccato! hai perso";
-
-                    clickCount = true;
-
-                })
-
-                
-
-            } else if (counter === listBombs.length - 1) {
-
-                thisCell.addEventListener("click", function cellEvent() {
-
-                    thisCell.classList.toggle("aqua");
-
-                    console.log(this.innerText * 1);
-
-                    points++
-
-                    displayMatchResults.innerHTML = `Il tuo attuale punteggio è: ${points}`;
-
-                })
+            })
 
 
 
-            }
+        } else {
 
-            counter++
+            thisCell.addEventListener("click", function cellEvent() {
 
-        }
+                thisCell.classList.toggle("aqua");
+    
+                console.log(this.innerText * 1);
+    
+                points++
+    
+                displayMatchResults.innerHTML = `Il tuo attuale punteggio è: ${points}`;
+    
+            })
+
+
+        }  
+
 
     }
 
@@ -161,81 +121,36 @@ function generateBombs(min, max) {
 }
 
 
-let easyRule = true;
-
-let regularRule = true;
-
-let hardRule = true;
-
 gridButton.addEventListener("click", function () {
 
+    const totalArea = Math.pow(levelsElement.value, 2);
 
-    if (levelsElement.value === "easy" && easyRule === true) {
+    while (gridElement.firstChild) {
 
-        while (gridElement.firstChild) {
+        gridElement.removeChild(gridElement.firstChild);
 
-            gridElement.removeChild(gridElement.firstChild);
+    }
 
-        }
-        easyRule = false;
+    generateGrid(totalArea, gridElement);
 
-        regularRule = true;
+    const listBombs = generateBombs(1, totalArea);
 
-        hardRule = true;
+    console.log(listBombs);
 
-        generateGrid(tenRow, tenCol, gridElement);
 
-        const listBombs = generateBombs(1, tenByTen);
-
-        console.log(listBombs);
+    if (levelsElement.value === "10") {
 
         const everyCell = document.querySelectorAll(".cell_10");
 
         clickableCell(everyCell, listBombs);
 
-    } else if (levelsElement.value === "regular" && regularRule === true) {
-
-        while (gridElement.firstChild) {
-
-            gridElement.removeChild(gridElement.firstChild);
-
-        }
-
-        regularRule = false;
-
-        easyRule = true;
-
-        hardRule = true;
-
-        generateGrid(nineRow, nineCol, gridElement);
-
-        const listBombs = generateBombs(1, nineByNine);
-
-        console.log(listBombs);
+    } else if (levelsElement.value === "9") {
 
         const everyCell = document.querySelectorAll(".cell_9");
 
         clickableCell(everyCell, listBombs);
 
-    } else if (levelsElement.value === "hard" && hardRule === true) {
-
-        while (gridElement.firstChild) {
-
-            gridElement.removeChild(gridElement.firstChild);
-
-        }
-
-        hardRule = false;
-
-        easyRule = true;
-
-        regularRule = true;
-
-        generateGrid(sevenRow, sevenCol, gridElement);
-
-        const listBombs = generateBombs(1, seveneBySeven);
-
-        console.log(listBombs);
+    } else if (levelsElement.value === "7") {
 
         const everyCell = document.querySelectorAll(".cell_7");
 
@@ -243,13 +158,6 @@ gridButton.addEventListener("click", function () {
 
     }
 
-
-
 });
-
-function checkExplosion () {
-    
-}
-
 
 
