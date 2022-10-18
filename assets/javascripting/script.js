@@ -27,7 +27,7 @@ const seveneBySeven = sevenRow * sevenCol;
 
 let points = 0;
 
-function generateRandomNumbers (min, max) {
+function generateRandomNumbers(min, max) {
 
     return Math.floor(Math.random() * (max - min + 1) + min);
 
@@ -81,6 +81,8 @@ function generateGrid(rows, cols, grid) {
 
 }
 
+let clickCount = false;
+
 
 function clickableCell(nodeList, listBombs) {
 
@@ -97,42 +99,50 @@ function clickableCell(nodeList, listBombs) {
             if (numberInCell === listBombs[counter]) {
 
                 counter = 16;
-    
-                thisCell.addEventListener("click", function () {
-    
+
+                thisCell.addEventListener("click", function bombEvent() {
+
                     thisCell.classList.toggle("red");
-        
+
                     console.log(this.innerText * 1);
 
+                    displayMatchResults.innerHTML = "Peccato! hai perso";
+
+                    clickCount = true;
+
                 })
-    
+
+                
+
             } else if (counter === listBombs.length - 1) {
 
-                thisCell.addEventListener("click", function () {
-    
+                thisCell.addEventListener("click", function cellEvent() {
+
                     thisCell.classList.toggle("aqua");
-        
+
                     console.log(this.innerText * 1);
-    
+
                     points++
-    
-                    displayMatchResults.innerHTML = `Il tuo attuale punteggio è: ${points}`
-    
+
+                    displayMatchResults.innerHTML = `Il tuo attuale punteggio è: ${points}`;
+
                 })
+
+
 
             }
 
             counter++
-           
+
         }
-        
+
     }
 
-    
+
 
 }
 
-function generateBombs (min, max) {
+function generateBombs(min, max) {
 
     const bombs = [];
 
@@ -162,7 +172,7 @@ gridButton.addEventListener("click", function () {
 
     if (levelsElement.value === "easy" && easyRule === true) {
 
-        while (gridElement.firstChild){
+        while (gridElement.firstChild) {
 
             gridElement.removeChild(gridElement.firstChild);
 
@@ -185,7 +195,7 @@ gridButton.addEventListener("click", function () {
 
     } else if (levelsElement.value === "regular" && regularRule === true) {
 
-        while (gridElement.firstChild){
+        while (gridElement.firstChild) {
 
             gridElement.removeChild(gridElement.firstChild);
 
@@ -209,7 +219,7 @@ gridButton.addEventListener("click", function () {
 
     } else if (levelsElement.value === "hard" && hardRule === true) {
 
-        while (gridElement.firstChild){
+        while (gridElement.firstChild) {
 
             gridElement.removeChild(gridElement.firstChild);
 
@@ -237,7 +247,9 @@ gridButton.addEventListener("click", function () {
 
 });
 
-function checkForWin () {
-
+function checkExplosion () {
+    
 }
+
+
 
