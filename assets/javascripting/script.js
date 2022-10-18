@@ -76,19 +76,48 @@ function generateGrid(rows, cols, grid) {
 }
 
 
-function clickableCell(nodeList) {
+function clickableCell(nodeList, listBombs) {
 
     for (let i = 0; i < nodeList.length; i++) {
 
         const thisCell = nodeList[i];
 
-        thisCell.addEventListener("click", function () {
+        const numberInCell = thisCell.innerText * 1;
 
-            thisCell.classList.toggle("aqua");
+        let counter = 0;
 
-            console.log(this);
-        })
+        while (counter <= listBombs.length) {
+
+            if (counter === listBombs.length) {
+
+                thisCell.addEventListener("click", function () {
+    
+                    thisCell.classList.toggle("aqua");
+        
+                    console.log(this.innerText * 1);
+    
+                })
+    
+            } else if (numberInCell === listBombs[counter]) {
+    
+                thisCell.addEventListener("click", function () {
+    
+                    thisCell.classList.toggle("red");
+        
+                    console.log(this.innerText * 1);
+    
+                })
+    
+            }
+
+            counter++
+
+        }
+        
     }
+
+    
+
 }
 
 function generateBombs (min, max) {
@@ -140,7 +169,7 @@ gridButton.addEventListener("click", function () {
 
         const everyCell = document.querySelectorAll(".cell_10");
 
-        clickableCell(everyCell);
+        clickableCell(everyCell, listBombs);
 
     } else if (levelsElement.value === "regular" && regularRule === true) {
 
@@ -164,7 +193,7 @@ gridButton.addEventListener("click", function () {
 
         const everyCell = document.querySelectorAll(".cell_9");
 
-        clickableCell(everyCell);
+        clickableCell(everyCell, listBombs);
 
     } else if (levelsElement.value === "hard" && hardRule === true) {
 
@@ -188,7 +217,7 @@ gridButton.addEventListener("click", function () {
 
         const everyCell = document.querySelectorAll(".cell_7");
 
-        clickableCell(everyCell);
+        clickableCell(everyCell, listBombs);
 
     }
 
