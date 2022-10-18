@@ -7,15 +7,27 @@ const tenRow = 10;
 
 const tenCol = 10;
 
+const tenByTen = tenRow * tenCol;
+
 const nineRow = 9;
 
 const nineCol = 9;
+
+const nineByNine = nineRow * nineCol;
 
 const sevenRow = 7;
 
 const sevenCol = 7;
 
+const seveneBySeven = sevenRow * sevenCol;
+
 const levelsElement = document.getElementById("difficulties");
+
+function generateRandomNumbers (min, max) {
+
+    return Math.floor(Math.random() * (max - min + 1) + min);
+
+}
 
 
 function generateGrid(rows, cols, grid) {
@@ -78,6 +90,28 @@ function clickableCell(nodeList) {
         })
     }
 }
+
+function generateBombs (min, max) {
+
+    const bombs = [];
+
+    while (bombs.length !== 16) {
+
+        const singleBomb = generateRandomNumbers(min, max);
+
+        if (!bombs.includes(singleBomb)) {
+
+            bombs.push(singleBomb);
+
+        }
+    }
+
+    return bombs
+}
+
+const listBomb = generateBombs(1, tenByTen);
+
+console.log(listBomb);
 
 
 let easyRule = true;
