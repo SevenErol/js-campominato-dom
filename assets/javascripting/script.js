@@ -3,6 +3,10 @@ const gridButton = document.getElementById("grid_generator");
 
 const gridElement = document.querySelector(".game_grid");
 
+const levelsElement = document.getElementById("difficulties");
+
+const displayMatchResults = document.querySelector(".match_display");
+
 const tenRow = 10;
 
 const tenCol = 10;
@@ -21,7 +25,7 @@ const sevenCol = 7;
 
 const seveneBySeven = sevenRow * sevenCol;
 
-const levelsElement = document.getElementById("difficulties");
+let points = 0;
 
 function generateRandomNumbers (min, max) {
 
@@ -31,6 +35,8 @@ function generateRandomNumbers (min, max) {
 
 
 function generateGrid(rows, cols, grid) {
+
+    displayMatchResults.innerHTML = `Il tuo attuale punteggio è: ${points}`
 
     for (let i = 0; i < (rows * cols); i++) {
 
@@ -86,9 +92,21 @@ function clickableCell(nodeList, listBombs) {
 
         let counter = 0;
 
-        while (counter <= listBombs.length) {
+        while (counter < listBombs.length) {
 
-            if (counter === listBombs.length) {
+            if (numberInCell === listBombs[counter]) {
+
+                counter = 16;
+    
+                thisCell.addEventListener("click", function () {
+    
+                    thisCell.classList.toggle("red");
+        
+                    console.log(this.innerText * 1);
+
+                })
+    
+            } else if (counter === listBombs.length - 1) {
 
                 thisCell.addEventListener("click", function () {
     
@@ -96,22 +114,16 @@ function clickableCell(nodeList, listBombs) {
         
                     console.log(this.innerText * 1);
     
-                })
+                    points++
     
-            } else if (numberInCell === listBombs[counter]) {
-    
-                thisCell.addEventListener("click", function () {
-    
-                    thisCell.classList.toggle("red");
-        
-                    console.log(this.innerText * 1);
+                    displayMatchResults.innerHTML = `Il tuo attuale punteggio è: ${points}`
     
                 })
-    
+
             }
 
             counter++
-
+           
         }
         
     }
@@ -224,4 +236,8 @@ gridButton.addEventListener("click", function () {
 
 
 });
+
+function checkForWin () {
+
+}
 

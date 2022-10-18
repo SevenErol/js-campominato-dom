@@ -20,6 +20,7 @@ button {
     display: flex;
     flex-wrap: wrap;
     margin-top: 3rem;
+    margin-bottom: 3rem;
 }
 
 .cell_10 {
