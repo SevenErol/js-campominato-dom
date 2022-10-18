@@ -109,10 +109,6 @@ function generateBombs (min, max) {
     return bombs
 }
 
-const listBomb = generateBombs(1, tenByTen);
-
-console.log(listBomb);
-
 
 let easyRule = true;
 
@@ -138,6 +134,10 @@ gridButton.addEventListener("click", function () {
 
         generateGrid(tenRow, tenCol, gridElement);
 
+        const listBombs = generateBombs(1, tenByTen);
+
+        console.log(listBombs);
+
         const everyCell = document.querySelectorAll(".cell_10");
 
         clickableCell(everyCell);
@@ -158,6 +158,10 @@ gridButton.addEventListener("click", function () {
 
         generateGrid(nineRow, nineCol, gridElement);
 
+        const listBombs = generateBombs(1, nineByNine);
+
+        console.log(listBombs);
+
         const everyCell = document.querySelectorAll(".cell_9");
 
         clickableCell(everyCell);
@@ -177,6 +181,10 @@ gridButton.addEventListener("click", function () {
         regularRule = true;
 
         generateGrid(sevenRow, sevenCol, gridElement);
+
+        const listBombs = generateBombs(1, seveneBySeven);
+
+        console.log(listBombs);
 
         const everyCell = document.querySelectorAll(".cell_7");
 
