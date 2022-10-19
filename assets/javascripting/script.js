@@ -76,8 +76,6 @@ function clickableCell(nodeList, listBombs) {
 
                 thisCell.classList.toggle("red");
 
-                console.log(this.innerText * 1);
-
                 displayMatchResults.innerHTML = `Peccato! hai perso. Il tuo punteggio è ${points}`;
 
             })
@@ -86,18 +84,30 @@ function clickableCell(nodeList, listBombs) {
 
         } else {
 
-            thisCell.addEventListener("click", function cellEvent() {
+            thisCell.addEventListener("click", function () {
 
                 thisCell.classList.toggle("aqua");
-    
-                console.log(this.innerText * 1);
     
                 points++
     
                 displayMatchResults.innerHTML = `Il tuo attuale punteggio è: ${points}`;
+
+                clickedCells.push(Number (thisCell.innerText));
+
+                if (clickedCells.length === nodeList.length - listBombs.length) {
+
+                    displayMatchResults.innerHTML = `Congratulazioni hai battuto il gioco! Il tuo punteggio è ${points}`;
+
+                    for (let j = 0; j < nodeList.length; j++) {
+
+                        const oneCell = nodeList[j];
+
+                        oneCell.style.pointerEvents = "none";
+                    }
+                
+                }
     
             })
-
 
         }  
 
@@ -131,6 +141,8 @@ gridButton.addEventListener("click", function () {
 
     points = 0;
 
+    clickedCells = [];
+
     const totalArea = Math.pow(levelsElement.value, 2);
 
     while (gridElement.firstChild) {
@@ -151,6 +163,7 @@ gridButton.addEventListener("click", function () {
         const everyCell = document.querySelectorAll(".cell_10");
 
         clickableCell(everyCell, listBombs);
+        
 
     } else if (levelsElement.value === "9") {
 
