@@ -9,7 +9,7 @@ const displayMatchResults = document.querySelector(".match_display");
 
 let points = 0;
 
-let verify = true;
+let clickedCells = [];
 
 function generateRandomNumbers(min, max) {
 
@@ -49,8 +49,6 @@ function generateGrid(totalArea, grid) {
 
     }
 
-    return true;
-
 }
 
 
@@ -64,15 +62,23 @@ function clickableCell(nodeList, listBombs) {
 
         if (listBombs.includes(numberInCell)) {
 
-            counter = 16;
+            thisCell.addEventListener("click", function (e) {
 
-            thisCell.addEventListener("click", function bombEvent() {
+                if (e.code = "mouse") {
+
+                    for (let j = 0; j < nodeList.length; j++) {
+
+                        const oneCell = nodeList[j];
+
+                        oneCell.style.pointerEvents = "none";
+                    }
+                }
 
                 thisCell.classList.toggle("red");
 
                 console.log(this.innerText * 1);
 
-                displayMatchResults.innerHTML = "Peccato! hai perso";
+                displayMatchResults.innerHTML = `Peccato! hai perso. Il tuo punteggio è ${points}`;
 
             })
 
@@ -122,6 +128,8 @@ function generateBombs(min, max) {
 
 
 gridButton.addEventListener("click", function () {
+
+    points = 0;
 
     const totalArea = Math.pow(levelsElement.value, 2);
 
